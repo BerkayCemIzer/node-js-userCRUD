@@ -62,7 +62,7 @@
       var xhr = new XMLHttpRequest();
 
       // xhr.open('GET', 'http://localhost:3000/users', true);
-      xhr.open('GET', 'https://nodecrudcem.onrender.com/users', true);
+      xhr.open('GET', 'https://nodecrudcem.onrender.com:3000/users', true);
 
       xhr.onload = function() {
         if(this.status = 200) {
@@ -84,7 +84,7 @@
     function changeHandler (x) {
       var xhr = new XMLHttpRequest();
       // xhr.open('GET', 'http://localhost:3000/users/' + x.target.value, true);
-      xhr.open('GET', 'https://nodecrudcem.onrender.com/users/' + x.target.value, true);
+      xhr.open('GET', 'https://nodecrudcem.onrender.com:3000/users/' + x.target.value, true);
 
       xhr.onload = function() {
         if(this.status = 200) {
@@ -105,7 +105,7 @@
     function handleDelete(event) {
       var xhr = new XMLHttpRequest();
 
-      xhr.open('DELETE', "https://nodecrudcem.onrender.com/user/" + event.target.value, true)
+      xhr.open('DELETE', "https://nodecrudcem.onrender.com:3000/user/" + event.target.value, true)
       // xhr.open('DELETE', "http://localhost:3000/user/" + event.target.value, true)
 
       xhr.send()
