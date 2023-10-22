@@ -8,7 +8,7 @@ const path = require("path");
 var cors = require("cors");
 const User = require("./models/userModel");
 
-app.use(cors());
+app.use(cors({origin: 'https://nodecrudcem.onrender.com/'}));
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.json());
