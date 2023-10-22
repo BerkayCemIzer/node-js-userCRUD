@@ -3,26 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Yeni Kullanıcı Ekle</title>
     <link rel="stylesheet" href="addUser.css" />
     <link rel="stylesheet" href="main.css" />
   </head>
   <body>
     <div class="nav">
-      <a class="nav-link" href="index.html">Back</a>
+      <a class="nav-link" href="index.html">Geri</a>
     </div>
     <h1>Kullanıcı ekle</h1>
     <div class="formDiv">
     <form action="http://localhost:3000/user" method="POST">
-      <label for="name">Name</label>
+      <label for="name">İsim</label>
       <input type="text" name="name" id="name" />
       <p id="error-name"></p>
       <hr />
-      <label for="surname">Surname</label>
+      <label for="surname">Soyisim</label>
       <input type="text" name="surname" id="surname" />
       <p id="error-surname"></p>
       <hr />
-      <label for="age">age</label>
+      <label for="age">Yaş</label>
       <input type="number" name="age" id="age" />
       <p id="error-age"></p>
       <hr />
@@ -30,23 +30,23 @@
       <input type="email" name="email" id="email" />
       <p id="error-email"></p>
       <hr />
-      <label for="street">Street</label>
+      <label for="street">Sokak</label>
       <input type="text" name="street" id="street" />
       <p id="error-street"></p>
       <hr />
-      <label for="city">City</label>
+      <label for="city">Şehir</label>
       <input type="text" name="city" id="city" />
       <p id="error-city"></p>
       <hr />
-      <label for="zipcode">zipcode</label>
+      <label for="zipcode">Posta Kodu</label>
       <input type="number" name="zipcode" id="zipcode" />
       <p id="error-zipcode"></p>
       <hr />
-      <label for="country">country</label>
+      <label for="country">Ülke</label>
       <input type="text" name="country" id="country" />
       <p id="error-country"></p>
       <hr />
-      <button type="submit" id="btn">Send!</button>
+      <button type="submit" id="btn">Kaydet</button>
     </form>
   </div>
     <script>
