@@ -55,7 +55,7 @@
         var xhr = new XMLHttpRequest();
 
         // xhr.open("GET", "http://localhost:3000/useredit/" + id, true);
-        xhr.open("GET", "https://nodecrudcem.onrender.com:3000/useredit/" + id, true);
+        xhr.open("GET", "https://nodecrudcem.onrender.com/useredit/" + id, true);
 
         xhr.onload = function () {
           document.querySelector("#name").value = JSON.parse(
@@ -98,7 +98,7 @@
         var xhr = new XMLHttpRequest();
 
         // xhr.open("PUT", "http://localhost:3000/userput/" + id, true);
-        xhr.open("PUT", "https://nodecrudcem.onrender.com:3000/userput/" + id, true);
+        xhr.open("PUT", "https://nodecrudcem.onrender.com/userput/" + id, true);
 
         xhr.setRequestHeader("Content-Type", "application/json");
 
