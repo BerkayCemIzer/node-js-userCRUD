@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="main.css">
+  
+</head>
+<body>
+  <div class="nav">
+    <a class="nav-link" href="addUser.html">Add User</a>
+  </div>
+  <h1>Kullanıcı Listesi</h1>
+  <div class="formDiv">
+  <input type="text" id="filterInput" placeholder="Filtreleme için buraya isim giriniz.">
+  <table>
+    <thead>
+      <tr>
+        <th>
+          id
+        </th>
+      <th>
+        name
+      </th>
+      <th>
+        surname
+      </th>
+      <th>
+        email
+      </th>
+      <th>age</th>
+      <th>
+        street
+      </th>
+      <th>
+        city
+      </th>
+      <th>
+        zipcode
+      </th>
+      <th>
+        country
+      </th>
+      <th>
+        İşlemler
+      </th>
+    </tr>
+  </thead>
+    <tbody class="thead">
+    </tbody>
+  </table>
+  
+  </div>
+
+  <script>
+    
+
+    window.onload = function loadText() {
+
+      var xhr = new XMLHttpRequest();
+
+      // xhr.open('GET', 'http://localhost:3000/users', true);
+      xhr.open('GET', 'https://nodecrudcem.onrender.com/users', true);
+
+      xhr.onload = function() {
+        if(this.status = 200) {
+          const arr = JSON.parse(this.responseText);
+          const thead = document.querySelector('.thead');
+          thead.innerHTML = "";
+          for (let i = 0; i < arr.length; i++) {
+            
+         thead.innerHTML = thead.innerHTML + `<tr><td>${arr[i]._id}</td><td>${arr[i].name}</td><td>${arr[i].surname}</td><td>${arr[i].email}</td><td>${arr[i].age}</td><td>${arr[i].address.street}</td><td>${arr[i].address.city}</td><td>${arr[i].address.zipcode}</td><td>${arr[i].address.country}</td><td><a class="links" href="editUser.html?id=${arr[i]._id}">Edit</a><button value=${arr[i]._id} class="links" onClick="handleDelete(event)">Delete</button></td></tr>`
+          }
+        }
+      }
+
+      xhr.send()
+    }
+
+    document.querySelector('#filterInput').addEventListener('input', changeHandler);
+
+    function changeHandler (x) {
+      var xhr = new XMLHttpRequest();
+      // xhr.open('GET', 'http://localhost:3000/users/' + x.target.value, true);
+      xhr.open('GET', 'https://nodecrudcem.onrender.com/users/' + x.target.value, true);
+
+      xhr.onload = function() {
+        if(this.status = 200) {
+          const arr = JSON.parse(this.responseText);
+          const thead = document.querySelector('.thead');
+          thead.innerHTML = "";
+          for (let i = 0; i < arr.length; i++) {
+            console.log(arr[i].fullName)
+            thead.innerHTML = thead.innerHTML + `<tr><td>${arr[i]._id}</td><td>${arr[i].name}</td><td>${arr[i].surname}</td><td>${arr[i].email}</td><td>${arr[i].age}</td><td>${arr[i].address.street}</td><td>${arr[i].address.city}</td><td>${arr[i].address.zipcode}</td><td>${arr[i].address.country}</td><td><a class="links" href="editUser.html?id=${arr[i]._id}">Edit</a><button value=${arr[i]._id} class="links" onClick="handleDelete(event)">Delete</button></td></tr>`
+          }
+        }
+      }
+
+      xhr.send()
+
+    }
+
+    function handleDelete(event) {
+      var xhr = new XMLHttpRequest();
+
+      xhr.open('DELETE', "https://nodecrudcem.onrender.com/user/" + event.target.value, true)
+      // xhr.open('DELETE', "http://localhost:3000/user/" + event.target.value, true)
+
+      xhr.send()
+
+      console.log(event.target.parentNode.parentNode.remove())
+    }
+
+      
+  </script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="addUser.css" />
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <div class="nav">
+      <a class="nav-link" href="index.html">Back</a>
+    </div>
+    <h1>Kullanıcı ekle</h1>
+    <div class="formDiv">
+    <form action="http://localhost:3000/user" method="POST">
+      <label for="name">Name</label>
+      <input type="text" name="name" id="name" />
+      <p id="error-name"></p>
+      <hr />
+      <label for="surname">Surname</label>
+      <input type="text" name="surname" id="surname" />
+      <p id="error-surname"></p>
+      <hr />
+      <label for="age">age</label>
+      <input type="number" name="age" id="age" />
+      <p id="error-age"></p>
+      <hr />
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" />
+      <p id="error-email"></p>
+      <hr />
+      <label for="street">Street</label>
+      <input type="text" name="street" id="street" />
+      <p id="error-street"></p>
+      <hr />
+      <label for="city">City</label>
+      <input type="text" name="city" id="city" />
+      <p id="error-city"></p>
+      <hr />
+      <label for="zipcode">zipcode</label>
+      <input type="number" name="zipcode" id="zipcode" />
+      <p id="error-zipcode"></p>
+      <hr />
+      <label for="country">country</label>
+      <input type="text" name="country" id="country" />
+      <p id="error-country"></p>
+      <hr />
+      <button type="submit" id="btn">Send!</button>
+    </form>
+  </div>
+    <script>
+      document.querySelector("#btn").addEventListener("click", btnHandler);
+
+      function btnHandler(event) {
+        event.preventDefault();
+        var xhr = new XMLHttpRequest();
+
+        xhr.open("POST", "https://nodecrudcem.onrender.com/user", true);
+        // xhr.open("POST", "http://localhost:3000/user", true);
+
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onreadystatechange = function () {
+          
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            
+            var response = JSON.parse(xhr.responseText);
+
+            console.log(response)
+            
+            document.querySelector("#error-name").innerHTML = "";
+            document.querySelector("#error-surname").innerHTML = "";
+            document.querySelector("#error-age").innerHTML = "";
+            document.querySelector("#error-email").innerHTML = "";
+            document.querySelector("#error-street").innerHTML = "";
+            document.querySelector("#error-city").innerHTML = "";
+            document.querySelector("#error-zipcode").innerHTML = "";
+            document.querySelector("#error-country").innerHTML = "";
+
+          }
+          for (let i = 0; i < response.length; i++) {
+            
+            if (response[i].name) {
+              document.querySelector("#error-name").innerHTML =
+                response[i].name;
+            }
+            if (response[i].surname) {
+              document.querySelector("#error-surname").innerHTML =
+                response[i].surname;
+            }
+            if (response[i].emailValid) {
+              document.querySelector("#error-email").innerHTML =
+                response[i].emailValid;
+            }
+            if (response[i].email) {
+              document.querySelector("#error-email").innerHTML =
+                response[i].email;
+            }
+            if (response[i].emailAlready) {
+              document.querySelector("#error-email").innerHTML =
+                response[i].emailAlready;
+            }
+            if (response[i].age) {
+              document.querySelector("#error-age").innerHTML = response[i].age;
+            }
+            if (response[i].street) {
+              document.querySelector("#error-street").innerHTML =
+                response[i].street;
+            }
+            if (response[i].city) {
+              document.querySelector("#error-city").innerHTML =
+                response[i].city;
+            }
+            if (response[i].zipcode) {
+              document.querySelector("#error-zipcode").innerHTML =
+                response[i].zipcode;
+            }
+            if (response[i].country) {
+              document.querySelector("#error-country").innerHTML =
+                response[i].country;
+            }
+          }
+          
+        if (response.success) {
+          window.location.replace("index.html");
+        }
+        };
+
+        xhr.send(
+          JSON.stringify({
+            name: document.querySelector("#name").value,
+            surname: document.querySelector("#surname").value,
+            email: document.querySelector("#email").value,
+            address: {
+              street: document.querySelector("#street").value,
+              city: document.querySelector("#city").value,
+              zipcode: document.querySelector("#zipcode").value,
+              country: document.querySelector("#country").value,
+            },
+            age: document.querySelector("#age").value,
+          })
+        );
+
+      }
+    </script>
+  </body>
+</html>

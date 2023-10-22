@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="editUser.css" />
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <div class="nav">
+      <a class="nav-link" href="index.html">Back</a>
+    </div>
+    <h1><span id="user"></span>Adlı Kullanıcıyı Güncelle</h1>
+    <div class="formDiv">
+      <form action="http://localhost:3000/userput/" method="POST">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" />
+        <p id="error-name"></p>
+        <hr />
+        <label for="surname">Surname</label>
+        <input type="text" name="surname" id="surname" />
+        <p id="error-surname"></p>
+        <hr />
+        <label for="age">age</label>
+        <input type="number" name="age" id="age" />
+        <p id="error-age"></p>
+        <hr />
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" />
+        <p id="error-email"></p>
+        <hr />
+        <label for="street">Street</label>
+        <input type="text" name="street" id="street" />
+        <p id="error-street"></p>
+        <hr />
+        <label for="city">City</label>
+        <input type="text" name="city" id="city" />
+        <p id="error-city"></p>
+        <hr />
+        <label for="zipcode">zipcode</label>
+        <input type="number" name="zipcode" id="zipcode" />
+        <p id="error-zipcode"></p>
+        <hr />
+        <label for="country">country</label>
+        <input type="text" name="country" id="country" />
+        <p id="error-country"></p>
+        <hr />
+        <button type="submit" id="btn">Send!</button>
+      </form>
+    </div>
+    <script>
+      var id = window.location.search.split("=")[1];
+      window.onload = function loadText() {
+        var xhr = new XMLHttpRequest();
+
+        // xhr.open("GET", "http://localhost:3000/useredit/" + id, true);
+        xhr.open("GET", "https://nodecrudcem.onrender.com/useredit/" + id, true);
+
+        xhr.onload = function () {
+          document.querySelector("#name").value = JSON.parse(
+            this.responseText
+          ).name;
+          document.querySelector("#surname").value = JSON.parse(
+            this.responseText
+          ).surname;
+          document.querySelector("#age").value = JSON.parse(
+            this.responseText
+          ).age;
+          document.querySelector("#email").value = JSON.parse(
+            this.responseText
+          ).email;
+          document.querySelector("#street").value = JSON.parse(
+            this.responseText
+          ).address.street;
+          document.querySelector("#city").value = JSON.parse(
+            this.responseText
+          ).address.city;
+          document.querySelector("#zipcode").value = JSON.parse(
+            this.responseText
+          ).address.zipcode;
+          document.querySelector("#country").value = JSON.parse(
+            this.responseText
+          ).address.country;
+          document.querySelector("#user").innerText =
+            JSON.parse(this.responseText).name + " ";
+        };
+        xhr.send();
+      };
+
+      document
+        .querySelector("#btn")
+        .addEventListener("click", clickHandler);
+
+      function clickHandler(e) {
+        e.preventDefault();
+
+        var xhr = new XMLHttpRequest();
+
+        // xhr.open("PUT", "http://localhost:3000/userput/" + id, true);
+        xhr.open("PUT", "https://nodecrudcem.onrender.com/userput/" + id, true);
+
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onload = function () {
+          
+            
+            var response = JSON.parse(xhr.responseText);
+
+            console.log(response)
+            
+            document.querySelector("#error-name").innerHTML = "";
+            document.querySelector("#error-surname").innerHTML = "";
+            document.querySelector("#error-age").innerHTML = "";
+            document.querySelector("#error-email").innerHTML = "";
+            document.querySelector("#error-street").innerHTML = "";
+            document.querySelector("#error-city").innerHTML = "";
+            document.querySelector("#error-zipcode").innerHTML = "";
+            document.querySelector("#error-country").innerHTML = "";
+
+          
+          for (let i = 0; i < response.length; i++) {
+            
+            if (response[i].name) {
+              document.querySelector("#error-name").innerHTML =
+                response[i].name;
+            }
+            if (response[i].surname) {
+              document.querySelector("#error-surname").innerHTML =
+                response[i].surname;
+            }
+            if (response[i].emailValid) {
+              document.querySelector("#error-email").innerHTML =
+                response[i].emailValid;
+            }
+            if (response[i].email) {
+              document.querySelector("#error-email").innerHTML =
+                response[i].email;
+            }
+            if (response[i].emailAlready) {
+              document.querySelector("#error-email").innerHTML =
+                response[i].emailAlready;
+            }
+            if (response[i].age) {
+              document.querySelector("#error-age").innerHTML = response[i].age;
+            }
+            if (response[i].street) {
+              document.querySelector("#error-street").innerHTML =
+                response[i].street;
+            }
+            if (response[i].city) {
+              document.querySelector("#error-city").innerHTML =
+                response[i].city;
+            }
+            if (response[i].zipcode) {
+              document.querySelector("#error-zipcode").innerHTML =
+                response[i].zipcode;
+            }
+            if (response[i].country) {
+              document.querySelector("#error-country").innerHTML =
+                response[i].country;
+            }
+          }
+          
+        if (response.success) {
+          window.location.replace("index.html");
+        }
+        };
+
+        xhr.send(
+          JSON.stringify({
+            name: document.querySelector("#name").value,
+            surname: document.querySelector("#surname").value,
+            email: document.querySelector("#email").value,
+            address: {
+              street: document.querySelector("#street").value,
+              city: document.querySelector("#city").value,
+              zipcode: document.querySelector("#zipcode").value,
+              country: document.querySelector("#country").value,
+            },
+            age: document.querySelector("#age").value,
+          })
+        );
+      }
+    </script>
+  </body>
+</html>
