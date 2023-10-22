@@ -160,60 +160,58 @@ app.put("/userput/:id", async (req, res) => {
   console.log(data);
   try {
     const arr = [];
-    const findOneEmail = await User.findOne({_id: {$ne: req.params.id}, "email": req.body.email});
+    const findOneEmail = await User.findOne({
+      _id: { $ne: req.params.id },
+      email: req.body.email,
+    });
 
-    if (
-      findOneEmail != undefined ||
-      req.body.name == "" ||
-      req.body.surname == "" ||
-      req.body.email == "" ||
-      req.body.address.street == "" ||
-      req.body.address.city == "" ||
-      req.body.address.zipcode == "" ||
-      req.body.address.country == ""
-    ) {
-      if (findOneEmail) {
-        // return res.json({message: "Email zaten kayıtlı."})
-        arr.push({
-          emailAlready:
-            "Girdiğiniz e-mail adresi kayıtlı. Başka bir e-mail giriniz.",
-        });
-      }
-      if (req.body.name == "") {
-        arr.push({ name: "Lütfen isim giriniz." });
-      }
-      if (req.body.surname == "") {
-        arr.push({ surname: "Lütfen soyisim giriniz." });
-      }
-      if (req.body.email == "") {
-        arr.push({ email: "Lütfen email giriniz." });
-      }
-      if (
-        req.body.email.match(
-          /(?:[a-z0-9+!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/i
-        )
-      ) {
-        arr.push({ emailValid: "Lütfen geçerli bir mail adresi giriniz." });
-      }
-      if (req.body.age == "") {
-        arr.push({ age: "Lütfen yaşınızı giriniz." });
-      }
-      if (req.body.address.street == "") {
-        arr.push({ street: "Lütfen sokak giriniz." });
-      }
-      if (req.body.address.city == "") {
-        arr.push({ city: "Lütfen şehir giriniz." });
-      }
-      if (req.body.address.zipcode == "") {
-        arr.push({ zipcode: "Lütfen posta kodu giriniz." });
-      }
-      if (req.body.address.country == "") {
-        arr.push({ country: "Lütfen ülke giriniz." });
-      }
-      return res.json(arr);
+    if (req.body.name == "") {
+      arr.push({ name: "Lütfen isim giriniz." });
+    }
+    if (req.body.surname == "") {
+      arr.push({ surname: "Lütfen soyisim giriniz." });
+    }
+    if (req.body.email == "") {
+      arr.push({ email: "Lütfen email giriniz." });
+    }
+    // if (
+    //   !req.body.email.match(/[^\s@]+@[^\s@]+\.[^\s@]+/gi)
+    // ) {
+    //   arr.push({ emailValid: "Lütfen geçerli bir mail adresi giriniz." });
+    // }
+    if (!req.body.email.match(/^[a-z0-9]+@[a-z0-9]+\.[a-z]{2,}$/i)) {
+      arr.push({ emailValid: "Lütfen geçerli bir mail adresi giriniz." });
+    }
+    if (req.body.age == "") {
+      arr.push({ age: "Lütfen yaşınızı giriniz." });
+    }
+    if (req.body.address.street == "") {
+      arr.push({ street: "Lütfen sokak giriniz." });
+    }
+    if (req.body.address.city == "") {
+      arr.push({ city: "Lütfen şehir giriniz." });
+    }
+    if (req.body.address.zipcode == "") {
+      arr.push({ zipcode: "Lütfen posta kodu giriniz." });
+    }
+    if (req.body.address.country == "") {
+      arr.push({ country: "Lütfen ülke giriniz." });
     }
 
+    if (findOneEmail) {
+      
+      // return res.json({message: "Email zaten kayıtlı."})
+      arr.push({
+        emailAlready:
+          "Girdiğiniz e-mail adresi kayıtlı. Başka bir e-mail giriniz.",
+      });
 
+      
+    }
+    if (arr.length > 0) {
+      return res.json(arr);
+    }
+    
     const user = await User.findByIdAndUpdate(id, data, { new: true });
 
     if (!user) {
